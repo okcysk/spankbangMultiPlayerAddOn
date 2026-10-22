@@ -1,6 +1,6 @@
-spankbang　[ブラウザ拡張版](https://okcysk.github.io/monsnodeMultiPlayerAddOn/)　webサイト版は技術的な問題で検討中
+spankbang：　[ブラウザ拡張版](https://okcysk.github.io/monsnodeMultiPlayerAddOn/)　webサイト版(検討中)
 
-monsnode　[ブラウザ拡張版](https://okcysk.github.io/monsnodeMultiPlayerAddOn/)　[webサイト版](https://okcysk.github.io/monsnodeMultiPlayer/)
+monsnode：　[ブラウザ拡張版](https://okcysk.github.io/monsnodeMultiPlayerAddOn/)　[webサイト版](https://okcysk.github.io/monsnodeMultiPlayer/)
 
 ![Monsnode Multi Player](./quad-player-guide.png)
 
