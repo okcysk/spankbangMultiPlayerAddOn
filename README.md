@@ -1,8 +1,12 @@
-[ブラウザ拡張版](https://okcysk.github.io/monsnodeMultiPlayerAddOn/)
+[spankbangブラウザ拡張版](https://okcysk.github.io/monsnodeMultiPlayerAddOn/)
 
-[webサイト版](https://okcysk.github.io/monsnodeMultiPlayer/)
+spankbangwebサイト版は技術的な問題で検討中
 
-![Monsnode Multi Player](./images/overview-multi-player.png)
+[monsnodeブラウザ拡張版](https://okcysk.github.io/monsnodeMultiPlayerAddOn/)
+
+[monsnodewebサイト版](https://okcysk.github.io/monsnodeMultiPlayer/)
+
+![Monsnode Multi Player](./overview-multi-player.png)
 
 ## Contact / 連絡先
 
