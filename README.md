@@ -6,7 +6,7 @@ spankbangwebサイト版は技術的な問題で検討中
 
 [monsnodewebサイト版](https://okcysk.github.io/monsnodeMultiPlayer/)
 
-![Monsnode Multi Player](./overview-multi-player.png)
+![Monsnode Multi Player](./quad-player-guide.png)
 
 ## Contact / 連絡先
 
