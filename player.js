@@ -4,6 +4,16 @@ const empty = document.querySelector('#empty');
 const slots = [];
 let activeSlot = 0;
 let bindings = {};
+const countSelect = document.querySelector('#player-count');
+let playerCount = 4;
+
+function setPlayerCount(count) {
+  playerCount = Number(count) === 2 ? 2 : 4;
+  countSelect.value = String(playerCount);
+  // Two videos sit side by side in one row; four use the 2 × 2 grid.
+  grid.style.gridTemplateRows = playerCount === 2 ? '1fr' : '';
+  grid.setAttribute('aria-label', playerCount === 2 ? 'Two video players' : 'Four video players');
+}
 
 function makeEmbed(item) {
   try {
@@ -101,7 +111,7 @@ function showEmpty(message) {
 }
 
 function applySelection(items) {
-  const videos = Array.isArray(items) ? items.map(makeEmbed).filter(Boolean).slice(0, 4) : [];
+  const videos = Array.isArray(items) ? items.map(makeEmbed).filter(Boolean).slice(0, playerCount) : [];
   if (slots.length === 0 && videos.length === 0) {
     showEmpty('Select up to four videos');
     return;
@@ -112,13 +122,14 @@ function applySelection(items) {
     for (let i = 0; i < 4; i++) slots.push(createSlot(i));
   }
   grid.hidden = false; empty.hidden = true;
+  for (const slot of slots) slot.cell.hidden = slot.order >= playerCount;
 
   const selectedIds = new Set(videos.map(item => item.id));
-  for (const slot of slots) slot.selected = Boolean(slot.item && selectedIds.has(slot.item.id));
+  for (const slot of slots) slot.selected = Boolean(slot.item && selectedIds.has(slot.item.id) && slot.order < playerCount);
 
-  // Stop and clear videos that were unchecked, leaving their panels black.
+  // Stop and clear videos that were unchecked or whose panel the layout hides, leaving their panels black.
   for (const slot of slots) {
-    if (slot.item && !selectedIds.has(slot.item.id)) {
+    if (slot.item && !slot.selected) {
       slot.iframe.removeAttribute('src');
       slot.iframe.title = '';
       slot.title.textContent = '';
@@ -131,7 +142,7 @@ function applySelection(items) {
   // Keep streams for videos that remain selected. Fill released cells with newly selected videos.
   for (const item of videos) {
     if (slots.some(slot => slot.item?.id === item.id)) continue;
-    const slot = slots.find(candidate => !candidate.selected);
+    const slot = slots.slice(0, playerCount).find(candidate => !candidate.selected);
     if (!slot) break;
     slot.item = item;
     slot.selected = true;
@@ -142,7 +153,16 @@ function applySelection(items) {
   }
 }
 
-chrome.storage.local.get({ selectedVideos: [] }, ({ selectedVideos }) => applySelection(selectedVideos));
+chrome.storage.local.get({ selectedVideos: [] }, ({ selectedVideos }) => {
+  // Open with the side-by-side layout when only one or two videos were selected.
+  const count = Array.isArray(selectedVideos) ? selectedVideos.length : 0;
+  setPlayerCount(count > 0 && count <= 2 ? 2 : 4);
+  applySelection(selectedVideos);
+});
+countSelect.addEventListener('change', () => {
+  setPlayerCount(countSelect.value);
+  chrome.storage.local.get({ selectedVideos: [] }, ({ selectedVideos }) => applySelection(selectedVideos));
+});
 document.querySelector('#pause-all').addEventListener('click', pauseAll);
 document.querySelector('#fullscreen').addEventListener('click', () => {
   if (document.fullscreenElement) document.exitFullscreen();
